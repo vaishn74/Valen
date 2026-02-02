@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harsh, Will You Be My Valentine?</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #5ed6c8, #69d8aa);
+  overflow: hidden;
+  transition: 1s ease;
+}
+
+body.party {
+  background-size: 400% 400%;
+  animation: bgDance 6s ease infinite;
+}
+
+@keyframes bgDance {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 25px;
+  width: 90%;
+  max-width: 750px;
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  position: relative;
+  z-index: 5;
+}
+
+/* SLIDESHOW */
+.slideshow {
+  width: 100%;
+  height: 260px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.slideshow img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.slideshow img.active {
+  display: block;
+}
+
+/* TEXT */
+h1 {
+  color: #63dccc;
+}
+
+p {
+  color: #555;
+  line-height: 1.4;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+button {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#yesBtn {
+  background: #63dccc;
+  color: white;
+}
+
+#noBtn {
+  background: #4cd7bc;
+}
+
+/* HEARTS */
+.heart {
+  position: fixed;
+  font-size: 22px;
+  animation: floatUp 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-100vh); opacity: 0; }
+}
+
+/* FIRECRACKER EMOJIS */
+.firecracker {
+  position: fixed;
+  font-size: 28px;
+  animation: explode 3.5s linear infinite;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@keyframes explode {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-100vh) scale(1.6); opacity: 0; }
+}
+
+/* THANK YOU IMAGE */
+.thanks-img {
+  width: 240px;
+  border-radius: 15px;
+  margin: 15px 0;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card" id="card">
+
+  <div style="flex:1">
+    <div class="slideshow">
+      <img src="photo1.png" class="active">
+      <img src="photo2.png">
+      <img src="photo3.png">
+      <img src="photo4.png">
+      <img src="photo5.png">
+    </div>
+  </div>
+
+  <div style="flex:1; text-align:center">
+    <h1>Harsh ❤️</h1>
+    <p>
+      From laughs to late-night talks 💕<br>
+      Every moment with you is special<br><br>
+      Will you be my Valentine?
+    </p>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes 💖</button>
+      <button id="noBtn">No 🙈</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slideshow img');
+let index = 0;
+
+setInterval(() => {
+  slides[index].classList.remove('active');
+  index = (index + 1) % slides.length;
+  slides[index].classList.add('active');
+}, 2500);
+
+const noBtn = document.getElementById('noBtn');
+noBtn.addEventListener('mouseover', () => {
+  noBtn.style.position = 'fixed';
+  noBtn.style.left = Math.random() * 80 + 'vw';
+  noBtn.style.top = Math.random() * 80 + 'vh';
+});
+
+const yesBtn = document.getElementById('yesBtn');
+const card = document.getElementById('card');
+const music = document.getElementById('bgMusic');
+
+yesBtn.addEventListener('click', () => {
+  document.body.classList.add('party');
+  music.play();
+
+  card.innerHTML = `
+    <div style="width:100%; text-align:center">
+      <h1>CONGRATULATIONS HARSH 🎉😂</h1>
+
+      <img src="photo6.png" class="thanks-img">
+
+      <p>
+        Thanks for staying with me for <b>7 YEARS</b> 🥹💚<br><br>
+        Thanks for bearing me for 7 years 😌😂<br>
+        (Lifetime subscription activated 🔓🤣)<br><br>
+        Unlimited love, drama & madness ✅😂<br>
+        Best decision of your life btw 😎💚✨
+      </p>
+    </div>
+  `;
+
+  createHearts();
+  createFirecrackers();
+});
+
+function createHearts() {
+  setInterval(() => {
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.innerHTML = '❤️';
+    h.style.left = Math.random() * 100 + 'vw';
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 4000);
+  }, 300);
+}
+
+function createFirecrackers() {
+  const emojis = ['🎆','🎇','🔥','✨','💥','😍','💚'];
+
+  setInterval(() => {
+    const f = document.createElement('div');
+    f.className = 'firecracker';
+    f.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+    f.style.left = Math.random() * 100 + 'vw';
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 4000);
+  }, 200);
+}
+</script>
+
+</body>
+</html>
